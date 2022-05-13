@@ -38,3 +38,13 @@ export class NotPermittedError<T> extends Error {
     this.data = data;
   }
 }
+
+export class AuthenticationError<T> extends Error {
+  public statusCode = 401;
+  public data: T;
+
+  constructor(data: T) {
+    super("Authentication Error");
+    this.data = data;
+  }
+}

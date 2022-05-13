@@ -1,4 +1,4 @@
-import { IUserService, UserDTO } from "../interfaces/user-service.interface";
+import { UserDTO } from "../interfaces/user-service.interface";
 import { AppDataSource } from "../data-source";
 import { User } from "../entities/users.entity";
 import { BodyFieldError, ServerError } from "../common/exceptions.common";
@@ -33,6 +33,10 @@ export class UserService {
       }
       throw new ServerError("Database Error");
     }
+  }
+
+  async getOneByEmail(email: string) {
+    return this.userRepository.findOneBy({ email });
   }
 }
 
