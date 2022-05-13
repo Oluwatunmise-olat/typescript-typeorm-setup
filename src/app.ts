@@ -1,6 +1,9 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 import express from "express";
+import cors from "cors";
+import helmet from "helmet";
+import compression from "compression";
 import * as morgan from "morgan";
 
 import {
@@ -16,6 +19,9 @@ if (process.env.NODE_ENV == "development") {
 }
 
 app.use(express.json());
+app.use(cors());
+app.use(helmet());
+app.use(compression());
 
 const routePrefix = "/v1";
 
