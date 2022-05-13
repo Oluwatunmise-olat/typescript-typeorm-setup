@@ -1,0 +1,9 @@
+.env
+.env.test
+node_modules
+dist
+Dockerfile
+.dockerignore
+docker-compose.yml
+docker-compose.test.yml
+ormconfig.ts
