@@ -26,7 +26,7 @@ app.use(cors());
 app.use(helmet());
 app.use(compression());
 app.use(passport.initialize());
-JwtAuthMiddleware(passport);
+JwtAuthMiddleware();
 
 const routePrefix = "/v1";
 

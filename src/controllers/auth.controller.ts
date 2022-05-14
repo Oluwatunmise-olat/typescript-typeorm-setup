@@ -9,9 +9,11 @@ class AuthenticationController {
       let user = await userService.getOneByEmail(req.body.email);
 
       if (!user || !user.checkPassword(req.body.password)) {
-        throw new AuthenticationError({
-          message: "Invalid Authentication Credentials",
-        });
+        return next(
+          new AuthenticationError({
+            message: "Invalid Authentication Credentials",
+          })
+        );
       }
 
       const userAccessToken = await jwtService.generateAccessToken({

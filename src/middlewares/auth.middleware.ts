@@ -4,17 +4,18 @@ import {
   VerifiedCallback,
 } from "passport-jwt";
 import express from "express";
-import { PassportStatic } from "passport";
+import passport from "passport";
+import { AuthenticationError } from "../common/exceptions.common";
 
-export default (passport: PassportStatic) => {
-  return passport.use("jwt", JwtAuth as unknown as JwtStrategy);
+export default () => {
+  passport.use("jwt", JwtAuth() as unknown as JwtStrategy);
 };
 
 const JwtAuth = () => {
   return new JwtStrategy(
     {
       secretOrKey: process.env.JWT_SECRET_KEY,
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme("Bearer"),
       passReqToCallback: true,
     },
     (req: express.Request, payload: any, done: VerifiedCallback) => {
@@ -25,4 +26,23 @@ const JwtAuth = () => {
       }
     }
   );
+};
+
+export const authenticate = (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) => {
+  passport.authenticate(
+    "jwt",
+    { session: false, failWithError: true },
+    (error, token) => {
+      if (error || !token) {
+        throw new AuthenticationError({
+          message: "Invalid Authentication Token",
+        });
+      }
+      return next();
+    }
+  )(req, res, next);
 };

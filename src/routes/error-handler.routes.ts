@@ -5,6 +5,7 @@ import {
   ServerError,
   ResourceNotFoundError,
   BodyFieldError,
+  AuthenticationError,
 } from "../common/exceptions.common";
 
 export default (
@@ -31,6 +32,15 @@ export default (
   }
 
   if (error instanceof BodyFieldError) {
+    return res.status(error.statusCode).json(
+      Response.response(true, error.statusCode, {
+        message: error.message,
+        data: error.data,
+      })
+    );
+  }
+
+  if (error instanceof AuthenticationError) {
     return res.status(error.statusCode).json(
       Response.response(true, error.statusCode, {
         message: error.message,
