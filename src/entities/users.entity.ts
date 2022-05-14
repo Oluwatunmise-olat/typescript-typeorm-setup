@@ -30,7 +30,7 @@ export class User extends BaseEntity {
     this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync());
   }
 
-  checkPassword(raw_password: string) {
-    return bcrypt.compareSync(raw_password, this.password);
+  checkPassword(rawPassword: string) {
+    return bcrypt.compareSync(rawPassword, this.password);
   }
 }

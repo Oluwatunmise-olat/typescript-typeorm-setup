@@ -17,16 +17,20 @@ export class UserService {
     }
   }
 
-  async create(data: UserDTO): Promise<User> {
+  async create(
+    data: UserDTO
+  ): Promise<Omit<User, "password" | "makePassword" | "checkPassword">> {
     try {
-      const user = new User();
+      let user = new User();
       user.email = data.email;
       user.username = data.username;
       user.password = data.password;
 
       user.makePassword();
 
-      return await this.userRepository.save(user);
+      const { password: _, ...result } = await this.userRepository.save(user);
+
+      return result;
     } catch (error) {
       if (error.name == "QueryFailedError") {
         throw new BodyFieldError("Email Already Exists");

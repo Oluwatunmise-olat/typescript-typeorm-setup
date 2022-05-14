@@ -36,12 +36,14 @@ export const authenticate = (
   passport.authenticate(
     "jwt",
     { session: false, failWithError: true },
-    (error, token) => {
-      if (error || !token) {
+    (error, payload) => {
+      if (error || !payload) {
         throw new AuthenticationError({
           message: "Invalid Authentication Token",
         });
       }
+      // @ts-ignore
+      req.userId = payload;
       return next();
     }
   )(req, res, next);

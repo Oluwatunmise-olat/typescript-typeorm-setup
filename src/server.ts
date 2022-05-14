@@ -12,3 +12,6 @@ http.createServer(app).listen(PORT, () => {
     })
     .catch((err) => console.log(`Failed to connect to DB ${err}`));
 });
+
+// yarn run typeorm migration:generate -d ormconfig.ts src/migrations/posts
+//https://github.com/typeorm/typeorm/issues/8762

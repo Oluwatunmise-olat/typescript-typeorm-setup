@@ -36,7 +36,7 @@
   "scripts": {
     "build": "tsc",
     "start": "set NODE_ENV=development&& nodemon ts-node src/server.ts",
-    "typeorm": "ts-node ./node_modules/typeorm/cli.js"
+    "typeorm": "typeorm-ts-node-commonjs"
   },
   "files": [
     "@types"

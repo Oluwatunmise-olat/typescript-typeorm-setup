@@ -3,20 +3,22 @@ import { Router } from "express";
 import postsController from "../controllers/posts.controllers";
 import { authenticate } from "../middlewares/auth.middleware";
 import RequestBodyDataMiddleware from "../middlewares/bodyfield.middleware";
-import { createPostValidator } from "../validators/post.validator";
+import postValidator from "../validators/post.validator";
 
 const router = Router();
 
 router
   .route("/")
-  .get(authenticate, postsController.getOne)
-  .delete(authenticate, postsController.delete)
+  .get(authenticate, postsController.getAll)
+  .delete(
+    authenticate,
+    RequestBodyDataMiddleware.validate(postValidator.deleteValidator()),
+    postsController.delete
+  )
   .post(
     authenticate,
-    RequestBodyDataMiddleware.validate(createPostValidator),
+    RequestBodyDataMiddleware.validate(postValidator.createValidator()),
     postsController.create
   );
-
-router.get("/all", authenticate, postsController.getAll);
 
 export default router;

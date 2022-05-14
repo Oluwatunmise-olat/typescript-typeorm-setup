@@ -13,18 +13,10 @@ class PostController {
     }
   }
 
-  async getOne(req: Request, res: Response, next: NextFunction) {
-    try {
-      const result = await postsService.getPostByEmail(req.body);
-
-      return res.status(200).json({ data: result });
-    } catch (error) {
-      next(error);
-    }
-  }
-
   async create(req: Request, res: Response, next: NextFunction) {
     try {
+      // @ts-ignore
+      req.body.userId = req.userId;
       const result = await postsService.create(req.body);
 
       return res.status(201).json({ data: result });
@@ -35,7 +27,8 @@ class PostController {
 
   async delete(req: Request, res: Response, next: NextFunction) {
     try {
-      const result = await postsService.delete(parseInt(req.body.postId));
+      // @ts-ignore
+      await postsService.delete(parseInt(req.body.postId), req.userId);
 
       return res.status(204).json({});
     } catch (error) {

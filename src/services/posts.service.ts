@@ -2,10 +2,9 @@ import { Repository } from "typeorm";
 
 import { AppDataSource } from "../data-source";
 import { Post } from "../entities/posts.entity";
-import { createDTO, getByEmailDTO } from "../interfaces/post-service.interface";
+import { createDTO } from "../interfaces/post-service.interface";
 import {
   ServerError,
-  BodyFieldError,
   ResourceNotFoundError,
   NotPermittedError,
 } from "../common/exceptions.common";
@@ -23,20 +22,50 @@ export class PostService {
     }
   }
 
-  async getPostByEmail(data: getByEmailDTO) {
+  async create(data: createDTO) {
+    const { description, publish, title, userId } = data;
+
     try {
-      const [result, count] = await this.postRepository.findAndCountBy({
-        user: { email: data.userEmail },
-      });
-      return result;
+      const post = new Post();
+      post.description = description;
+      post.title = title;
+
+      if (publish) post.publish = publish;
+
+      post.user_id = userId;
+
+      const response = await this.postRepository.save(post);
+
+      return response;
     } catch (error) {
-      throw new ServerError("DataBase Error");
+      throw new ServerError();
     }
   }
 
-  async create(data: createDTO) {}
+  async delete(postId: number, userId: number) {
+    try {
+      const postObj = await this.postRepository.findOneBy({ id: postId });
 
-  async delete(postId: number) {}
+      if (!postObj) {
+        throw new ResourceNotFoundError("Resource Not Found");
+      }
+
+      if (!(postObj.user.id === userId)) {
+        throw new NotPermittedError({ message: "Unauthorized to modify" });
+      }
+
+      await this.postRepository.delete({ id: postId });
+    } catch (error) {
+      if (
+        error instanceof ResourceNotFoundError ||
+        error instanceof NotPermittedError
+      ) {
+        throw error;
+      }
+
+      throw new ServerError();
+    }
+  }
 }
 
 export default new PostService();

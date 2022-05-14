@@ -25,6 +25,9 @@ export class Post extends BaseEntity {
   @Column({ type: "boolean", default: true })
   public publish: boolean;
 
+  @Column({ type: "int", nullable: false })
+  public user_id?: number;
+
   @ManyToOne((_) => User, (user) => user.posts, {
     eager: true,
     onDelete: "CASCADE",
