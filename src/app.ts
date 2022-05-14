@@ -12,6 +12,7 @@ import {
   postRouter as postRoutes,
   errorRouter as errorRoute,
   authRouter as authRoutes,
+  mediaRouter as mediaRoutes,
 } from "./routes";
 import JwtAuthMiddleware from "./middlewares/auth.middleware";
 
@@ -21,7 +22,7 @@ if (process.env.NODE_ENV == "development") {
   app.use(morgan.default(":method :url :status :res[content-length]"));
 }
 
-app.use(express.json());
+app.use([express.json(), express.urlencoded({ extended: true })]);
 app.use(cors());
 app.use(helmet());
 app.use(compression());
@@ -33,6 +34,7 @@ const routePrefix = "/v1";
 app.use(`${routePrefix}`, authRoutes);
 app.use(`${routePrefix}/users`, userRoutes);
 app.use(`${routePrefix}/posts`, postRoutes);
+app.use(`${routePrefix}/files`, mediaRoutes);
 
 app.use(
   (req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -43,5 +45,3 @@ app.use(
 app.use(errorRoute);
 
 export default app;
-
-// https://www.digitalocean.com/community/tutorials/how-to-upload-a-file-to-object-storage-with-node-js

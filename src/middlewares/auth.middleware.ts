@@ -20,8 +20,6 @@ const JwtAuth = () => {
     },
     (req: express.Request, payload: any, done: VerifiedCallback) => {
       try {
-        //TODO:: remove console.log, logging, namespace
-        console.log(payload);
         return done(null, payload.userId);
       } catch (error) {
         return done(error);

@@ -1,5 +1,4 @@
 import { Router } from "express";
-import passport from "passport";
 
 import postsController from "../controllers/posts.controllers";
 import { authenticate } from "../middlewares/auth.middleware";
@@ -22,10 +21,6 @@ router
     postsController.create
   );
 
-router.get(
-  "/all",
-  passport.authenticate("jwt", { failWithError: true }),
-  postsController.getAll
-);
+router.get("/all", authenticate, postsController.getAll);
 
 export default router;
