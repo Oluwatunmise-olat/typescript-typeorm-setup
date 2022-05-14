@@ -43,3 +43,5 @@ app.use(
 app.use(errorRoute);
 
 export default app;
+
+// https://www.digitalocean.com/community/tutorials/how-to-upload-a-file-to-object-storage-with-node-js

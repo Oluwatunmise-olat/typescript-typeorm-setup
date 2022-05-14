@@ -5,7 +5,7 @@ class PostController {
   async getAll(req: Request, res: Response, next: NextFunction) {
     try {
       // @ts-ignore
-      const result = await postsService.getAllPosts(req.userId);
+      const result = await postsService.getAllPosts(req.user);
 
       return res.status(200).json({ data: result });
     } catch (error) {
@@ -28,7 +28,7 @@ class PostController {
   async delete(req: Request, res: Response, next: NextFunction) {
     try {
       // @ts-ignore
-      await postsService.delete(parseInt(req.body.postId), req.userId);
+      await postsService.delete(parseInt(req.body.postId));
 
       return res.status(204).json({});
     } catch (error) {
