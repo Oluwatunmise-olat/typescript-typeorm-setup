@@ -42,7 +42,6 @@ export const authenticate = (
           message: "Invalid Authentication Token",
         });
       }
-      // @ts-ignore
       req.userId = payload;
       return next();
     }

@@ -13,7 +13,6 @@ class MediaStorage {
         bucket: process.env.SPACE_NAME!,
         acl: "public-read",
         key: (req, file, cb) => {
-          // @ts-ignore
           // TODO:: perform structured uploads
           cb(null, `posts/${file.originalname}`);
         },
