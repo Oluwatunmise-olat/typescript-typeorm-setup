@@ -25,8 +25,8 @@ export class Post extends BaseEntity {
   @Column({ type: "boolean", default: true })
   public publish: boolean;
 
-  @Column({ type: "varchar", nullable: true })
-  public mime_url?: string;
+  // @Column({ type: "varchar", nullable: true })
+  // public mime_url?: string;
 
   @Column({ type: "int", nullable: false })
   public user_id?: number;
