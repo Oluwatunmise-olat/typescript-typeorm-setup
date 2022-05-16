@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import postsController from "../controllers/posts.controllers";
+import { postController } from "../controllers";
 import { authenticate } from "../middlewares/auth.middleware";
 import RequestBodyDataMiddleware from "../middlewares/bodyfield.middleware";
 import postValidator from "../validators/post.validator";
@@ -9,18 +9,18 @@ const router = Router();
 
 router
   .route("/")
-  .get(authenticate, postsController.getAll)
+  .get(authenticate, postController.getAll)
   .delete(
     authenticate,
     RequestBodyDataMiddleware.validate(postValidator.deleteValidator()),
-    postsController.delete
+    postController.delete
   )
   .post(
     authenticate,
     RequestBodyDataMiddleware.validate(postValidator.createValidator()),
-    postsController.create
+    postController.create
   );
 
-router.get("/all", authenticate, postsController.getAll);
+router.get("/all", authenticate, postController.getAll);
 
 export default router;

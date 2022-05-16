@@ -23,7 +23,7 @@ export class PostService {
   }
 
   async create(data: createDTO) {
-    const { description, publish, title, userId } = data;
+    const { description, publish, title, userId, mimeUrl } = data;
 
     try {
       const post = new Post();
@@ -31,6 +31,7 @@ export class PostService {
       post.title = title;
 
       if (publish) post.publish = publish;
+      if (mimeUrl) post.mime_url = mimeUrl;
 
       post.user_id = userId;
 

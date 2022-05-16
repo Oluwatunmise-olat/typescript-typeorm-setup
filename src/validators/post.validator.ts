@@ -12,6 +12,7 @@ class PostValidator {
       title: Joi.string().trim().required(),
       description: Joi.string().required(),
       publish: Joi.boolean().optional(),
+      mimeUrl: Joi.string().optional(),
     });
   }
 }

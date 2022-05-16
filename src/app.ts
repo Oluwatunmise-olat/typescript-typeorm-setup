@@ -13,6 +13,7 @@ import {
   errorRouter as errorRoute,
   authRouter as authRoutes,
   mediaRouter as mediaRoutes,
+  commentRouter as commentRoutes,
 } from "./routes";
 import JwtAuthMiddleware from "./middlewares/auth.middleware";
 
@@ -35,6 +36,7 @@ app.use(`${routePrefix}`, authRoutes);
 app.use(`${routePrefix}/users`, userRoutes);
 app.use(`${routePrefix}/posts`, postRoutes);
 app.use(`${routePrefix}/files`, mediaRoutes);
+app.use(`${routePrefix}/comments`, commentRoutes);
 
 app.use(
   (req: express.Request, res: express.Response, next: express.NextFunction) => {

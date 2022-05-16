@@ -8,4 +8,6 @@ export type createDTO = {
   publish?: boolean;
 
   userId: number;
+
+  mimeUrl?: string;
 };
